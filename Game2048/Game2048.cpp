@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <ctime>
+#include <cstdlib>
 #include "helpers.h"
 
 bool loadConfig(int& minS, int& maxS, int& maxNick, int& leadCount) {
@@ -44,6 +46,8 @@ void showMenu() {
 void handleStartGame(int minS, int maxS, int maxNick) {
     char nickname[101];
     int size;
+    int board[BOARD_MAX][BOARD_MAX];
+    int score = 0;
 
     std::cout << "Enter nickname: ";
     std::cin >> nickname;
@@ -53,10 +57,16 @@ void handleStartGame(int minS, int maxS, int maxNick) {
         std::cin >> size;
     } while (size < minS || size > maxS);
 
-    std::cout << "Game starts for " << nickname << "...\n";
+    initBoard(board, size);
+    addRandomTile(board, size);
+    addRandomTile(board, size);
+    printBoard(board, size, score);
+
+    //Todo continue
 }
 
 int main() {
+    std::srand(std::time(0));
     int minSize = 0;
     int maxSize = 0;
     int maxNickLen = 0;

@@ -1,4 +1,3 @@
-#pragma once
 /**
 *
 * Solution to course project # 08
@@ -22,5 +21,9 @@ const int BOARD_MAX = 10;
 bool loadConfig(int& minS, int& maxS, int& maxNick, int& leadCount);
 void showMenu();
 void handleStartGame(int minS, int maxS, int maxNick);
+
+void initBoard(int board[BOARD_MAX][BOARD_MAX], int size);
+void printBoard(int board[BOARD_MAX][BOARD_MAX], int size, int score);
+void addRandomTile(int board[BOARD_MAX][BOARD_MAX], int size);
 
 #endif

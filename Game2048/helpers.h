@@ -26,4 +26,10 @@ void initBoard(int board[BOARD_MAX][BOARD_MAX], int size);
 void printBoard(int board[BOARD_MAX][BOARD_MAX], int size, int score);
 void addRandomTile(int board[BOARD_MAX][BOARD_MAX], int size);
 
+bool moveLeft(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
+bool moveRight(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
+bool moveUp(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
+bool moveDown(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
+bool canMove(int board[BOARD_MAX][BOARD_MAX], int size);
+
 #endif

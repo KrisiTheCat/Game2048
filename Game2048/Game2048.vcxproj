@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Game2048.cpp" />
+    <ClCompile Include="leaderboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="config.txt" />

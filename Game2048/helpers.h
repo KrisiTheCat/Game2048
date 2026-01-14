@@ -17,6 +17,7 @@
 #define HELPERS_H
 
 const int BOARD_MAX = 10;
+const int MAX_TOP = 5;
 
 bool loadConfig(int& minS, int& maxS, int& maxNick, int& leadCount);
 void showMenu();
@@ -31,5 +32,8 @@ bool moveRight(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
 bool moveUp(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
 bool moveDown(int board[BOARD_MAX][BOARD_MAX], int size, int& score);
 bool canMove(int board[BOARD_MAX][BOARD_MAX], int size);
+
+void updateLeaderboard(int size, const char* name, int score);
+void showLeaderboard(int size);
 
 #endif

@@ -9,7 +9,7 @@
 * @idnumber 3MI0600635
 * @compiler GCC
 *
-* Main file that manages the application flow and game loop.
+* Main file managing application flow and leaderboard access.
 *
 */
 
@@ -23,24 +23,19 @@ bool loadConfig(int& minS, int& maxS, int& maxNick, int& leadCount) {
     std::ifstream file("config.txt");
     if (!file.is_open()) return false;
     char key[100];
-    file >> key >> minS;
-    file >> key >> maxS;
-    file >> key >> maxNick;
-    file >> key >> leadCount;
+    file >> key >> minS >> key >> maxS >> key >> maxNick >> key >> leadCount;
     file.close();
     return true;
 }
 
 void showMenu() {
-    std::cout << "\n--- 2048 GAME ---\n";
-    std::cout << "1. Start Game\n2. Leaderboard\n3. Exit\nChoice: ";
+    std::cout << "\n--- 2048 GAME ---\n1. Start Game\n2. Leaderboard\n3. Exit\nChoice: ";
 }
 
 void handleStartGame(int minS, int maxS, int maxNick) {
     char nickname[101], cmd;
     int size, score = 0, board[BOARD_MAX][BOARD_MAX];
-    std::cout << "Nickname: ";
-    std::cin >> nickname;
+    std::cout << "Nickname: "; std::cin >> nickname;
     do {
         std::cout << "Board size (" << minS << "-" << maxS << "): ";
         std::cin >> size;
@@ -53,10 +48,10 @@ void handleStartGame(int minS, int maxS, int maxNick) {
     while (true) {
         printBoard(board, size, score);
         if (!canMove(board, size)) {
-            std::cout << "Game Over! Your final score: " << score << "\n";
+            std::cout << "Game Over! Score: " << score << "\n";
+            updateLeaderboard(size, nickname, score);
             break;
         }
-        std::cout << "Move (w/a/s/d) or q to quit: ";
         std::cin >> cmd;
         if (cmd == 'q') break;
         bool moved = false;
@@ -64,26 +59,25 @@ void handleStartGame(int minS, int maxS, int maxNick) {
         else if (cmd == 'a') moved = moveLeft(board, size, score);
         else if (cmd == 's') moved = moveDown(board, size, score);
         else if (cmd == 'd') moved = moveRight(board, size, score);
-
         if (moved) addRandomTile(board, size);
     }
 }
 
 int main() {
     std::srand(std::time(0));
-    int minSize, maxSize, maxNick, leadCount;
-    if (!loadConfig(minSize, maxSize, maxNick, leadCount)) return 1;
+    int minS, maxS, maxN, leadC;
+    if (!loadConfig(minS, maxS, maxN, leadC)) return 1;
 
     int choice;
     while (true) {
         showMenu();
-        if (!(std::cin >> choice)) {
-            std::cin.clear();
-            std::cin.ignore(1000, '\n');
-            continue;
+        if (!(std::cin >> choice)) { std::cin.clear(); std::cin.ignore(1000, '\n'); continue; }
+        if (choice == 1) handleStartGame(minS, maxS, maxN);
+        else if (choice == 2) {
+            int s;
+            std::cout << "Size: "; std::cin >> s;
+            showLeaderboard(s);
         }
-        if (choice == 1) handleStartGame(minSize, maxSize, maxNick);
-        else if (choice == 2) std::cout << "Leaderboard not ready.\n";
         else if (choice == 3) break;
     }
     return 0;
